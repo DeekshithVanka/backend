@@ -33,7 +33,7 @@ const userschema={
     }
 }
 const user=mongoose.model("user",userschema)
-app.use(cors())
+
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
