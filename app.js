@@ -1,22 +1,41 @@
-require("dotenv").config()
+const dotenv=require('dotenv').config()
 
+const mongoose=require("mongoose")
 const express=require("express")
 const hbs=require("hbs");
 const app=express();
 const port=process.env.PORT || 8000
 const path=require("path")
-const user=require("./model")
 
-const mongodburl=process.env.MONGODB_URL;
 
-mongoose.connect("mongodburl")
+
+
+
+
+mongoose.connect(process.env.MONGODB_URL)
 .then(console.log("connectd mongoatlas"))
 .catch((err)=>
 {
     "error"
 })
+const userschema={
+    username:String,
+  
+    email:{
+        type:String,
+        required:true,   
 
-app.use(express.urlencoded({extended:false}))
+    },
+    password:{
+        type:String,
+       required:true
+
+    }
+}
+const user=mongoose.model("user",userschema)
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
 
 
@@ -46,7 +65,7 @@ app.post("/register",async (req,res)=>
        }
        catch(err)
        {
-           res.status(400).send("no")
+           res.status(400).send(err)
        }
 })
 
